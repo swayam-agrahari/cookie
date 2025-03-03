@@ -35,3 +35,11 @@ VALUES
 (3, 'MichaelBrown', 'password789', false),
 (4, 'EmilyDavis', 'password101', false),
 (5, 'ChrisWilson', 'password202', true);
+
+
+INSERT INTO category (name, images, slug)
+VALUES
+('Fast Food', 'https://images.pexels.com/photos/2725744/pexels-photo-2725744.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' ,'fast-food'),
+('Italian', 'https://media.istockphoto.com/id/1227415751/photo/full-table-of-italian-meals-on-plates-pizza-pasta-ravioli-carpaccio-caprese-salad-and-tomato.jpg?b=1&s=612x612&w=0&k=20&c=tiPc3o6o65Ok6dYLtZza4mXPK-z59OBqnWqtuQPY3EU=' ,'italian'),
+('Salad', 'https://images.pexels.com/photos/1059905/pexels-photo-1059905.jpeg?auto=compress&cs=tinysrgb&w=600','salad'),
+('Beverages','https://images.pexels.com/photos/2531184/pexels-photo-2531184.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' ,'beverages');

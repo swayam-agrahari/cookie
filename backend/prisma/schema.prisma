@@ -12,6 +12,8 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+
 model items{
   itemId Int @id  @default(autoincrement())
   name String
@@ -24,10 +26,18 @@ model items{
   availability Boolean
   orders_items cart[]
 } 
+
+model category {
+  id Int @id @default(autoincrement())
+  name String
+  images String
+  slug String
+}
 model orders{
   orderId Int @id @default(autoincrement())
   tableId Int
-  totalCost Int 
+  totalCost Int
+  createdAt DateTime  @default(now())
   orders_items cart[]
 }
 model cart{
