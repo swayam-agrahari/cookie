@@ -103,9 +103,13 @@ router.get('/item',async (req,res) =>{
 
 
 //items with category
-router.get('/category',async (req,res) =>{
-    const categoryName = req.query.category;
+router.post('/category',async (req,res) =>{
+    console.log("this fn hit ",req.body)
+    const data = req.body;
+    console.log("cat",data.category)
+    const categoryName = data.category;
     if(!categoryName || Array.isArray(categoryName)){
+        console.log("here ")
         res.status(400).json({
             message:"No such category found"
         })
@@ -124,5 +128,22 @@ router.get('/category',async (req,res) =>{
     }
     res.status(200).json({
         items:response
+    })
+})
+
+
+//routes for getting category
+router.get('/getCategories',async (req,res) =>{
+    console.log("fn hit")
+    const response = await client.category.findMany({})
+    if(!response){
+        console.log("NO response")
+        res.status(400).json({
+            message:"No categories found"
+        })
+    }
+
+    res.status(200).json({
+        categories:response
     })
 })
