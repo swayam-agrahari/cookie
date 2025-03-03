@@ -1,22 +1,24 @@
 export interface Item{
-    itemID: Number;
+    itemId: Number;
     name:String;
     bio:String;
     image:String;
     category:String;
     subcategory:String;
+    tags: String[];
     isvegan:boolean;
     cost:Number;
     availability:Boolean;
 }
 
+
 export interface CartItem {
-    itemID: Number;
+    itemId: Number;
     tableId:Number;
 }
 
 export interface Cart{
-    id:Number;
+    
     tableId:Number;
     totalCost:Number;
     orders:{
@@ -24,3 +26,10 @@ export interface Cart{
         quantity:Number;
     }[]
 }
+
+export interface Category {
+    id: string;
+    name: string;
+    slug: string;
+    images: string;
+  }
