@@ -1,29 +1,32 @@
 export interface Item{
-    itemId: Number;
-    name:String;
-    bio:String;
-    image:String;
-    category:String;
-    subcategory:String;
-    tags: String[];
+    itemId: number;
+    name:string;
+    bio:string;
+    image:string;
+    category:string;
+    subcategory:string;
+    tags: string[];
     isvegan:boolean;
-    cost:Number;
+    cost:number;
     availability:Boolean;
 }
 
 
 export interface CartItem {
-    itemId: Number;
-    tableId:Number;
+    itemId: number;
+    tableId:number;
 }
 
 export interface Cart{
     
-    tableId:Number;
-    totalCost:Number;
+    tableId:number;
+    totalCost:number;
     orders:{
-        itemId:Number;
-        quantity:Number;
+        itemId:number;
+        quantity:number;
+        name:string;
+        image:string;
+        cost:number;
     }[]
 }
 
