@@ -1,34 +1,45 @@
 "use client"
-import { Cart, CartItem } from "@/types/types";
+import { Cart, CartItem, Item } from "@/types/types";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface CartContextType{
-    cart:Cart | undefined;
-    addToCart:(item:CartItem,quantity:number) => void;
-    removeFromCart: (item:CartItem )=> void;
-    updateCart:(item:CartItem,quantity:number)=> void;
+    cart:Cart;
+    addToCart:(item:Item,quantity:number) => void;
+    removeFromCart: (itemId:number )=> void;
+    updateCart:(itemId:number,quantity:number)=> void;
     isCartOpen: boolean;
+    totalItems:number;
     setIsCartOpen: (isOpen: boolean) => void;
+    totalPrice : number;
 }
 
 const cartContext = createContext<CartContextType | undefined>(undefined)
 
 
-export const cartProvider:React.FC<{children:React.ReactNode}> = ({children}) =>{
-    const [cart,setCart] = useState<Cart>()
+const CartProvider:React.FC<{children:React.ReactNode}> = ({children}) =>{
+    const [cart, setCart] = useState<Cart>({
+        tableId: 1,    
+        totalCost: 0,  
+        orders: [],    
+    });
     const [isCartOpen, setIsCartOpen] = useState(false);
 
     //Initial load of card on mount 
 
     useEffect(()=>{
        
+        console.log("useEffect me")
         try {
             const cartItems = sessionStorage.getItem("cart");
             if(!cartItems){
                 console.log("No cart found!")
-                return
+                sessionStorage.setItem("cart",JSON.stringify({}))
+                return 
             }
-            setCart(JSON.parse(cartItems))
+
+            console.log("till here")
+            // setCart(JSON.parse(cartItems))
+            console.log("he",(cartItems))
             
         } catch (error) {
             console.log("error ",error)
@@ -44,45 +55,50 @@ export const cartProvider:React.FC<{children:React.ReactNode}> = ({children}) =>
         }
     },[cart])
 
-    //add to cart
-    const addToCart = (item:CartItem,quantity:Number) =>{
+    // Add to cart
+    const addToCart = (item: Item, quantity: number) => {
+        console.log("addToCart called for item: ", item.itemId, "with quantity:", quantity);
         setCart((prevCart) => {
-            if (!prevCart) {
-                return prevCart;
-            }
-            //check if item is there in cart or not
-            const itemIndex = prevCart.orders.findIndex((i) => item.itemID === i.itemId);
+            // Check if item is already in cart
+            const itemIndex = prevCart.orders.findIndex((i) => item.itemId === i.itemId);
+            console.log("itemIndex", itemIndex);
+
             if (itemIndex === -1) {
-                //add item
-                const addedItems = [...prevCart.orders,{itemId:item.itemID, quantity:quantity}];
+                // Item not found, add a new item to the orders array
+                const addedItem = {
+                    itemId: (item.itemId),
+                    quantity: quantity,
+                    name:item.name,
+                    image:item.image,
+                    cost:item.cost
+                };
                 return {
                     ...prevCart,
-                    orders:addedItems
-                }
-            }
-                //update item
-                const updatedItems = [...prevCart.orders]; 
-                updatedItems[itemIndex].quantity = Number(updatedItems[itemIndex].quantity) + Number(quantity); 
-            
+                    orders: [...prevCart.orders, addedItem],
+                };
+            } else {
+                // Item exists, update the quantity
+                const updatedItems = [...prevCart.orders];
+                updatedItems[itemIndex].quantity +=  quantity ;
+
                 return {
                     ...prevCart,
                     orders: updatedItems,
                 };
-            
-           
-
+            }
         });
-        
-    } 
+    };
+
+
 
     //remove from cart
 
-    const removeFromCart = (item:CartItem) =>{
+    const removeFromCart = (itemId:number) =>{
         setCart((prevCart) =>{
             if(!prevCart){
                 return prevCart;
             }
-            const updatedOrders = prevCart?.orders.filter((i) => item.itemID  !== i.itemId)
+            const updatedOrders = prevCart?.orders.filter((i) => itemId  !== i.itemId)
             return{
                 ...prevCart,
                 orders:updatedOrders
@@ -92,16 +108,16 @@ export const cartProvider:React.FC<{children:React.ReactNode}> = ({children}) =>
     }
     //update quantity
 
-    const updateCart = (item:CartItem,quantity:Number) =>{
-        if(Number(quantity) <= 0){
+    const updateCart = (itemId:number,quantity:number) =>{
+        if((quantity) <= 0){
             //remove from cart
-            removeFromCart(item);
+            removeFromCart(itemId);
             return;
         }
         setCart((prevCart) =>{
             //update the cart
             if(!prevCart)return prevCart
-            const itemIndex = prevCart.orders.findIndex((i) => item.itemID === i.itemId);
+            const itemIndex = prevCart.orders.findIndex((i) => itemId === i.itemId);
             const updatedItem = [...prevCart.orders]
             updatedItem[itemIndex].quantity = quantity;
             return {
@@ -112,16 +128,23 @@ export const cartProvider:React.FC<{children:React.ReactNode}> = ({children}) =>
         })
     }
 
+    //calculate the total items 
+    const totalItems = cart ? cart.orders.reduce((total,item) => total + Number(item.quantity),0) : 0
+
+    //calculate total price
+    const totalPrice = cart ? cart.orders.reduce((total,item) => total + (item.cost * item.quantity),0): 0
+
     return(
         <cartContext.Provider
-        value={{cart,addToCart,removeFromCart,updateCart,isCartOpen,setIsCartOpen}}
+        value={{cart,addToCart,removeFromCart,updateCart,isCartOpen,setIsCartOpen,totalItems,totalPrice}}
         >
-
             {children}
         </cartContext.Provider>
     )
 
 }
+
+export default CartProvider;
 
 export const useCart = () =>{
     const context = useContext(cartContext);
@@ -130,3 +153,4 @@ export const useCart = () =>{
     }
     return context
 }
+
