@@ -1,89 +1,52 @@
-@import "tailwindcss";
-
-@theme {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
   --primary: #0a0a0a;
   --secondary: #1a1a1a;
   --accent: #4f46e5;
-  --text: #f3f4f6;
-  
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --primary: #0a0a0a;
-    --secondary: #1a1a1a;
-    --accent: #4f46e5;
-    --text: #f3f4f6;
-  }
+  --text: #000000;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Inter", sans-serif;
+  @apply bg-white dark:bg-primary text-gray-900 dark:text-white;
+  overflow-x: hidden;
 }
 
-
 .glassmorphism {
-  background: rgba(26, 26, 26, 0.25);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  @apply bg-white/80 
+  dark:bg-[rgba(26,26,26,0.25)] 
+  backdrop-blur-md border 
+  border-gray-200 
+  dark:border-white/10 
+  shadow-lg 
+  dark:shadow-black/40;
 }
 
 .menu-card {
-  background: rgba(26, 26, 26, 0.35);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  transition: all 0.3s ease;
+  @apply bg-white/90 dark:bg-[rgba(26,26,26,0.35)] backdrop-blur-md border border-gray-200 dark:border-white/10 shadow-md dark:shadow-black/40 transition-all duration-300;
 }
 
 .menu-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  @apply transform -translate-y-1 shadow-lg dark:shadow-black/50 border-gray-300 dark:border-white/20;
 }
 
 .sidebar {
-  background: rgba(10, 10, 10, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: -8px 0 32px 0 rgba(0, 0, 0, 0.37);
+  @apply bg-white/90 dark:bg-[rgba(10,10,10,0.8)] backdrop-blur-md border-l border-gray-200 dark:border-white/10 shadow-lg dark:shadow-black/40;
 }
 
 .floating-button {
-  background: rgba(79, 70, 229, 0.9);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  box-shadow: 0 4px 16px 0 rgba(79, 70, 229, 0.5);
-  transition: all 0.3s ease;
+  @apply bg-accent/90 backdrop-blur shadow-lg shadow-accent/30 transition-all duration-300;
 }
 
 .floating-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px 0 rgba(79, 70, 229, 0.6);
+  @apply transform scale-105 shadow-xl shadow-accent/40;
 }
 
-
 .modal {
-  background: rgba(26, 26, 26, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  @apply bg-white/90 dark:bg-[rgba(26,26,26,0.7)] backdrop-blur-md border border-gray-200 dark:border-white/10 shadow-lg dark:shadow-black/40;
 }
 
 /* Custom scrollbar */
@@ -92,16 +55,15 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(26, 26, 26, 0.1);
+  @apply bg-gray-100/10 dark:bg-[rgba(26,26,26,0.1)];
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(79, 70, 229, 0.5);
-  border-radius: 10px;
+  @apply bg-accent/50 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(79, 70, 229, 0.7);
+  @apply bg-accent/70;
 }
 
 /* Swipe animation */
@@ -158,4 +120,19 @@ body {
 
 .pulse {
   animation: pulse 1.5s infinite;
+}
+
+/* Add rotation animation */
+.rotate {
+  animation: rotate-animation 2s infinite linear;
+}
+
+/* Define the rotation animation */
+@keyframes rotate-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
