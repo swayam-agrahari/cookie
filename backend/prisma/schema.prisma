@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,44 +7,56 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-model items{
-  itemId Int @id  @default(autoincrement())
-  name String
-  bio String
-  image String
-  category String
-  subcategory String
-  isvegan Boolean
-  cost Int
+model items {
+  itemId       Int     @id @default(autoincrement())
+  name         String
+  bio          String
+  image        String
+  category     String
+  subcategory  String
+  isvegan      Boolean
+  cost         Int
   availability Boolean
+  tags         String[]
+  ingredients String[]
+  createdAt    DateTime @default(now())
   orders_items cart[]
-} 
+}
 
 model category {
-  id Int @id @default(autoincrement())
-  name String
+  id     Int    @id @default(autoincrement())
+  name   String
   images String
-  slug String
+  slug   String
+  description String
 }
-model orders{
-  orderId Int @id @default(autoincrement())
-  tableId Int
-  totalCost Int
-  createdAt DateTime  @default(now())
+
+model orders {
+  orderId      Int      @id @default(autoincrement())
+  tableId      Int
+  status     Status
+  totalCost    Int
+  createdAt    DateTime @default(now())
   orders_items cart[]
 }
-model cart{
-  @@id([orderId, itemId])
-  orderId Int
-  itemId Int
+
+model cart {
+  orderId  Int
+  itemId   Int
   quantity Int
-  iid items @relation(fields: [itemId],references: [itemId])
-  oid orders @relation(fields: [orderId],references: [orderId])
+  iid      items  @relation(fields: [itemId], references: [itemId])
+  oid      orders @relation(fields: [orderId], references: [orderId])
+  
+  @@id([orderId, itemId])
 }
-model users{
-  userId Int @id @default(autoincrement())
+model users {
+  userId   Int     @id @default(autoincrement())
   username String
   password String
-  isAdmin Boolean
+  isAdmin  Boolean
+}
+
+enum Status {
+  PENDING
+  COMPLETED
 }
