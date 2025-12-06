@@ -43,4 +43,4 @@ coverage/
 
 # Ignore all system-specific and temporary files  
 Thumbs.db  
-package-lock
+frontend/package-lock.json
