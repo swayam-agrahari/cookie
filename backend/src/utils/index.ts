@@ -40,4 +40,16 @@ export const categories = z.object({
   images: z.string(),
   description: z.string(),
   slug: z.string(),
+  totalItems:z.number().optional(),
 });
+
+export const activities=z.object({
+  activitId:z.number().optional(),
+  activity:z.enum(["PLACED_ORDER","COMPLETED_ORDER","ADDED_ITEM","DELETED_ITEM","DELETED_CATEGORY","UPDATED_ITEM","ADDED_CATEGORY","UPDATED_CATEGORY","ADDED_TABLE","DELETED_TABLE"]),
+  changedId:z.number()
+})
+
+export const tables=z.object({
+  tid:z.number().optional(),
+  tablename:z.string()
+})

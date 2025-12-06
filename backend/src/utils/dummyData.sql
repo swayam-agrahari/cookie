@@ -1,8 +1,19 @@
+-- Insert bulk data into 'category' table first
+INSERT INTO category (name, images, slug, description)
+VALUES
+('Appetizers', '/assets/Appetizers.jpg', 'appetizers',''),
+('Soups', '/assets/Soups.jpg', 'soups',''),
+('Salads', '/assets/Salads.jpg', 'salads',''),
+('Entrees', '/assets/Entrees.jpg', 'entrees',''),
+('Sides', '/assets/Sides.jpg', 'sides',''),
+('Desserts', '/assets/Desserts.jpg', 'desserts',''),
+('Beverages', '/assets/Beverages.jpeg', 'beverages','');
+
 -- Insert bulk data into 'items' table
 INSERT INTO items (name, bio, image, category, subcategory, isvegan, cost, availability, tags, ingredients)
 VALUES
 ('Vegan Spring Rolls', 'Crispy vegan spring rolls with dipping sauce.', '/assets/Vegan-Spring-Rolls.png', 'Appetizers', 'Vegan', true, 8, true, ARRAY['vegan', 'appetizer', 'crispy'], ARRAY['spring roll wrapper', 'tofu', 'carrot', 'lettuce']),
-('Tomato Soup', 'Creamy tomato soup with a touch of basil.', '/asstes/Tomato-Soup.webp', 'Soups', 'Vegan', true, 6, true, ARRAY['vegan', 'soup', 'tomato'], ARRAY['tomatoes', 'basil', 'garlic', 'olive oil']),
+('Tomato Soup', 'Creamy tomato soup with a touch of basil.', '/assets/Tomato-Soup.webp', 'Soups', 'Vegan', true, 6, true, ARRAY['vegan', 'soup', 'tomato'], ARRAY['tomatoes', 'basil', 'garlic', 'olive oil']),
 ('Caesar Salad', 'Classic Caesar salad with creamy dressing and croutons.', '/assets/Caesar-Salad.jpg', 'Salads', 'Non-Vegan', false, 12, true, ARRAY['salad', 'caesar', 'non-vegan'], ARRAY['romaine lettuce', 'caesar dressing', 'croutons', 'parmesan']),
 ('Grilled Chicken', 'Juicy grilled chicken served with herbs and spices.', '/assets/Grilled-Chicken.jpg', 'Entrees', 'Non-Vegan', false, 18, true, ARRAY['entree', 'chicken', 'grilled'], ARRAY['chicken breast', 'olive oil', 'garlic', 'herbs']),
 ('French Fries', 'Crispy French fries with a side of ketchup.', '/assets/French-Fries.jpg', 'Sides', 'Non-Vegan', false, 5, true, ARRAY['side', 'fries', 'crispy'], ARRAY['potatoes', 'salt', 'oil']),
@@ -23,24 +34,17 @@ VALUES
 ('Tiramisu', 'Classic Italian tiramisu with coffee-soaked layers.', '/assets/Tiramisu.jpg', 'Desserts', 'Non-Vegan', false, 7, true, ARRAY['dessert', 'italian', 'coffee'], ARRAY['ladyfingers', 'mascarpone', 'coffee', 'cocoa powder']),
 ('Hot Chocolate', 'Warm and creamy hot chocolate with whipped cream.', '/assets/Hot-Chocolate.jpg', 'Beverages', 'Non-Vegan', false, 4, true, ARRAY['beverage', 'chocolate', 'warm'], ARRAY['chocolate', 'milk', 'sugar', 'whipped cream']);
 
--- Insert bulk data into 'category' table
-INSERT INTO category (name, images, slug, description)
-VALUES
-('Appetizers', '/assets/Appetizers.jpg', 'appetizers',''),
-('Soups', '/assets/Soups.jpg', 'soups',''),
-('Salads', '/assets/Salads.jpg', 'salads',''),
-('Entrees', '/assets/Entrees.jpg', 'entrees',''),
-('Sides', '/assets/Sides.jpg', 'sides',''),
-('Desserts', '/assets/Desserts.jpg', 'desserts',''),
-('Beverages', '/assets/Beverages.jpeg', 'beverages','');
-
 -- Insert bulk data into 'orders' table
 INSERT INTO orders ("tableId", "totalCost", "createdAt", status)
 VALUES
 (1, 95, '2025-03-09T14:30:00.000Z', 'PENDING'),
-(2, 78, '2025-03-09T15:00:00.000Z', 'PENDING');
+(2, 78, '2025-03-09T15:00:00.000Z', 'PENDING'),
+(3, 85, '2025-03-09T16:00:00.000Z', 'PENDING'),
+(4, 98, '2025-03-09T17:00:00.000Z', 'PENDING'),
+(5, 120, '2025-03-09T18:00:00.000Z', 'PENDING');
 
 -- Insert bulk data into 'cart' table (mapping orders and items)
+
 -- Order 1
 INSERT INTO cart ("orderId", "itemId", quantity)
 VALUES
@@ -54,15 +58,14 @@ VALUES
 -- Order 2
 INSERT INTO cart ("orderId", "itemId", quantity)
 VALUES
-(2, 7, 1), -- Vegan Tacos
-(2, 8, 1), -- Minestrone Soup
-(2, 9, 1), -- Greek Salad
-(2, 10, 1), -- Vegan Burger
-(2, 11, 1), -- Mashed Potatoes
-(2, 12, 1); -- Cheesecake
+(2, 7, 1), -- Lemonade
+(2, 8, 1), -- Vegan Tacos
+(2, 9, 1), -- Minestrone Soup
+(2, 10, 1), -- Greek Salad
+(2, 11, 1), -- Vegan Burger
+(2, 12, 1); -- Mashed Potatoes
 
-
-
+-- Insert bulk data into 'users' table
 INSERT INTO users (username, password, "isAdmin")
 VALUES
 ('john_doe', 'hashed_password_1', true),
@@ -77,4 +80,16 @@ VALUES
 ('hannah_wright', 'hashed_password_10', true);
 
 
-
+-- Insert bulk data into 'Tables' table
+INSERT INTO "Tables" (tablename)
+VALUES
+('Table 1'),
+('Table 2'),
+('Table 3'),
+('Table 4'),
+('Table 5'),
+('Table 6'),
+('Table 7'),
+('Table 8'),
+('Table 9'),
+('Table 10');

@@ -8,33 +8,37 @@ datasource db {
 }
 
 model items {
-  itemId       Int     @id @default(autoincrement())
-  name         String
-  bio          String
-  image        String
-  category     String
-  subcategory  String
-  isvegan      Boolean
-  cost         Int
-  availability Boolean
-  tags         String[]
-  ingredients String[]
-  createdAt    DateTime @default(now())
-  orders_items cart[]
+  itemId        Int      @id @default(autoincrement())
+  name          String
+  bio           String
+  image         String
+  category      String
+  subcategory   String
+  isvegan       Boolean
+  cost          Int
+  availability  Boolean
+  tags          String[]
+  ingredients   String[]
+  rating        Int[] @default([3])
+  createdAt     DateTime @default(now())
+  category_item category @relation(fields: [category], references: [name], onDelete: Cascade)
+  orders_items  cart[]
 }
 
 model category {
-  id     Int    @id @default(autoincrement())
-  name   String
-  images String
-  slug   String
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  images      String
+  slug        String
   description String
+  totalItems  Int     @default(0)
+  items       items[]
 }
 
 model orders {
   orderId      Int      @id @default(autoincrement())
   tableId      Int
-  status     Status
+  status       Status
   totalCost    Int
   createdAt    DateTime @default(now())
   orders_items cart[]
@@ -44,11 +48,12 @@ model cart {
   orderId  Int
   itemId   Int
   quantity Int
-  iid      items  @relation(fields: [itemId], references: [itemId])
-  oid      orders @relation(fields: [orderId], references: [orderId])
-  
+  iid      items  @relation(fields: [itemId], references: [itemId], onDelete: Cascade)
+  oid      orders @relation(fields: [orderId], references: [orderId], onDelete: Cascade)
+
   @@id([orderId, itemId])
 }
+
 model users {
   userId   Int     @id @default(autoincrement())
   username String
@@ -56,7 +61,32 @@ model users {
   isAdmin  Boolean
 }
 
+model Activities {
+  activitId Int      @id @default(autoincrement())
+  activity  Activity
+  createdAt DateTime @default(now())
+  changedId Int
+}
+
+model Tables {
+  tid       Int    @id @default(autoincrement())
+  tablename String
+}
+
 enum Status {
   PENDING
   COMPLETED
+}
+
+enum Activity {
+  PLACED_ORDER
+  COMPLETED_ORDER
+  ADDED_ITEM
+  DELETED_ITEM
+  UPDATED_ITEM
+  ADDED_CATEGORY
+  DELETED_CATEGORY
+  UPDATED_CATEGORY
+  ADDED_TABLE
+  DELETED_TABLE
 }
