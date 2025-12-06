@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #0a0a0a;
+  --secondary: #1a1a1a;
+  --accent: #4f46e5;
+  --text: #000000;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  @apply bg-white dark:bg-primary text-gray-900 dark:text-white;
+  overflow-x: hidden;
+}
+
+.glassmorphism {
+  @apply bg-white/80 
+  dark:bg-[rgba(26,26,26,0.25)] 
+  backdrop-blur-md border 
+  border-gray-200 
+  dark:border-white/10 
+  shadow-lg 
+  dark:shadow-black/40;
+}
+
+.menu-card {
+  @apply bg-white/90 dark:bg-[rgba(26,26,26,0.35)] backdrop-blur-md border border-gray-200 dark:border-white/10 shadow-md dark:shadow-black/40 transition-all duration-300;
+}
+
+.menu-card:hover {
+  @apply transform -translate-y-1 shadow-lg dark:shadow-black/50 border-gray-300 dark:border-white/20;
+}
+
+.sidebar {
+  @apply bg-white/90 dark:bg-[rgba(10,10,10,0.8)] backdrop-blur-md border-l border-gray-200 dark:border-white/10 shadow-lg dark:shadow-black/40;
+}
+
+.floating-button {
+  @apply bg-accent/90 backdrop-blur shadow-lg shadow-accent/30 transition-all duration-300;
+}
+
+.floating-button:hover {
+  @apply transform scale-105 shadow-xl shadow-accent/40;
+}
+
+.modal {
+  @apply bg-white/90 dark:bg-[rgba(26,26,26,0.7)] backdrop-blur-md border border-gray-200 dark:border-white/10 shadow-lg dark:shadow-black/40;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100/10 dark:bg-[rgba(26,26,26,0.1)];
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-accent/50 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-accent/70;
+}
+
+/* Swipe animation */
+.swipe-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.swipe-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.swipe-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.swipe-exit-active {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Pulse animation for add to cart */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(79, 70, 229, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0);
+  }
+}
+
+.pulse {
+  animation: pulse 1.5s infinite;
+}
+
+/* Add rotation animation */
+.rotate {
+  animation: rotate-animation 2s infinite linear;
+}
+
+/* Define the rotation animation */
+@keyframes rotate-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
