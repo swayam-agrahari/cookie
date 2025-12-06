@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "Activity" ADD VALUE 'DELETED_ITEM';
