@@ -34,7 +34,7 @@ export default function Login() {
       }
     };
     sendUser();
-  }, [data]);
+  }, [data,router]);
   function checkUser() {
     if (username != "" && password != "") {
       setLoading(true);

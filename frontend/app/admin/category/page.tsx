@@ -2,7 +2,7 @@
 import type React from "react";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Search, Edit2, Trash2,AlertCircle, X } from "lucide-react";
+import { Plus, Search, Edit2, Trash2, AlertCircle, X } from "lucide-react";
 import axios from "axios";
 import { CategorySkeletonLoader } from "./skeleton";
 import ImageKit from "imagekit";
@@ -71,10 +71,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
             }
             transition={{ duration: 0.2 }}
             className={`fixed z-50 bg-white overflow-hidden
-              ${
-                isMobile
-                  ? "bottom-0 left-0 right-0 rounded-t-xl max-h-[90vh] overflow-y-auto"
-                  : "left-1/2 top-1/4 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg rounded-xl shadow-xl"
+              ${isMobile
+                ? "bottom-0 left-0 right-0 rounded-t-xl max-h-[90vh] overflow-y-auto"
+                : "left-1/2 top-1/4 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg rounded-xl shadow-xl"
               }`}
           >
             <div className="sticky top-0 flex justify-between items-center border-b border-gray-200 p-4 bg-white">
@@ -174,7 +173,7 @@ const CategoryForm: React.FC<{
     }
   };
 
-  const uploadImageToImageKit = async (id:number,image:string) => {
+  const uploadImageToImageKit = async (id: number, image: string) => {
     if (!selectedFile) return null;
 
     setIsUploading(true);
@@ -187,16 +186,16 @@ const CategoryForm: React.FC<{
         };
         reader.readAsDataURL(selectedFile);
       });
-      const imgname=image.split("/")[image.split("/").length-1]
+      const imgname = image.split("/")[image.split("/").length - 1]
       console.log(imgname)
-      const imglists=await imagekit.listFiles({
-        searchQuery : `name=${imgname}`
+      const imglists = await imagekit.listFiles({
+        searchQuery: `name=${imgname}`
       })
-      const file=imglists.find((file)=>'fileId' in file)
-      const fileId=file?(file as {fileId:string}).fileId:null
-      try{
-        await imagekit.deleteFile(fileId||"")
-      }catch{
+      const file = imglists.find((file) => 'fileId' in file)
+      const fileId = file ? (file as { fileId: string }).fileId : null
+      try {
+        await imagekit.deleteFile(fileId || "")
+      } catch {
         console.log("Image Does not exist")
       }
       const base64 = await base64Promise;
@@ -223,7 +222,7 @@ const CategoryForm: React.FC<{
     }
     if (selectedFile) {
       setIsUploading(true);
-      const imageUrl = await uploadImageToImageKit(category?.id||0,category?.images||"");
+      const imageUrl = await uploadImageToImageKit(category?.id || 0, category?.images || "");
       setIsUploading(false);
 
       if (!imageUrl) {
@@ -249,7 +248,7 @@ const CategoryForm: React.FC<{
       }
     };
     sendCat();
-  }, [isSubmitted]);
+  }, [isSubmitted, category, formData]);
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
@@ -329,15 +328,14 @@ const CategoryForm: React.FC<{
         <button
           type="submit"
           disabled={isUploading}
-          className={`px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors ${
-            isUploading ? "opacity-70 cursor-not-allowed" : ""
-          }`}
+          className={`px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors ${isUploading ? "opacity-70 cursor-not-allowed" : ""
+            }`}
         >
           {isUploading
             ? "Uploading..."
             : category
-            ? "Update Category"
-            : "Add Category"}
+              ? "Update Category"
+              : "Add Category"}
         </button>
       </div>
     </form>
@@ -348,12 +346,12 @@ function CategoryComponent() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [deletingCategory,setDeletingCategory]=useState<Category|null>(null)
+  const [deletingCategory, setDeletingCategory] = useState<Category | null>(null)
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [toast, setToast] = useState<string | null>(null);
-  const [refresh,setRefresh]=useState(true)
-  const [isDeleting,setIsDeleting]=useState(false)
+  const [refresh, setRefresh] = useState(true)
+  const [isDeleting, setIsDeleting] = useState(false)
   useEffect(() => {
     const getCategories = async () => {
       const response = await axios.get(
@@ -428,7 +426,7 @@ function CategoryComponent() {
             <button
               onClick={() => setIsAddModalOpen(true)}
               disabled={isDeleting}
-              className={`flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base ${isDeleting?"cursor-wait":""}`}
+              className={`flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base ${isDeleting ? "cursor-wait" : ""}`}
             >
               <Plus className="w-4 h-4 md:w-5 md:h-5" />
               <span className="hidden md:inline">Add Category</span>
@@ -452,62 +450,62 @@ function CategoryComponent() {
             <AnimatePresence>
               {isLoading
                 ? Array(6)
-                    .fill(0)
-                    .map((_, index) => <CategorySkeletonLoader key={index} />)
+                  .fill(0)
+                  .map((_, index) => <CategorySkeletonLoader key={index} />)
                 : filteredCategories?.map((category) => (
-                    <motion.div
-                      key={category.id}
-                      layout
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow"
-                    >
-                      <div className="relative h-36 md:h-48">
-                        <img
-                          src={category.images || "/placeholder.svg"}
-                          alt={category.name}
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute top-2 right-2 flex gap-2">
-                          <button
-                            onClick={() => setEditingCategory(category)}
-                            disabled={isDeleting}
-                            className={`p-2 bg-white/90 rounded-full hover:bg-white transition-colors ${isDeleting?"cursor-wait":""}`}
-                          >
-                            <Edit2 className="w-4 h-4 text-gray-700" />
-                          </button>
-                          <button
-                            onClick={() => setDeletingCategory(category)}
-                            disabled={isDeleting}
-                            className={`p-2 bg-white/90 rounded-full hover:bg-white transition-colors ${isDeleting?"cursor-wait":""}`}
-                          >
-                            <Trash2 className="w-4 h-4 text-red-500" />
-                          </button>
-                        </div>
+                  <motion.div
+                    key={category.id}
+                    layout
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow"
+                  >
+                    <div className="relative h-36 md:h-48">
+                      <img
+                        src={category.images || "/placeholder.svg"}
+                        alt={category.name}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute top-2 right-2 flex gap-2">
+                        <button
+                          onClick={() => setEditingCategory(category)}
+                          disabled={isDeleting}
+                          className={`p-2 bg-white/90 rounded-full hover:bg-white transition-colors ${isDeleting ? "cursor-wait" : ""}`}
+                        >
+                          <Edit2 className="w-4 h-4 text-gray-700" />
+                        </button>
+                        <button
+                          onClick={() => setDeletingCategory(category)}
+                          disabled={isDeleting}
+                          className={`p-2 bg-white/90 rounded-full hover:bg-white transition-colors ${isDeleting ? "cursor-wait" : ""}`}
+                        >
+                          <Trash2 className="w-4 h-4 text-red-500" />
+                        </button>
                       </div>
-                      <div className="p-4">
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          {category.name}
-                        </h3>
-                        <p className="text-sm text-gray-600 mt-1 line-clamp-2">
-                          {category.description}
-                        </p>
-                        <div className="mt-4 flex items-center justify-between">
-                          <span className="text-sm font-medium text-gray-600">
-                            {category._count?.items} Products
-                          </span>
-                          <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="text-sm text-blue-600 hover:text-blue-700 font-medium"
-                          >
-                            View Details
-                          </motion.button>
-                        </div>
+                    </div>
+                    <div className="p-4">
+                      <h3 className="text-lg font-semibold text-gray-900">
+                        {category.name}
+                      </h3>
+                      <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                        {category.description}
+                      </p>
+                      <div className="mt-4 flex items-center justify-between">
+                        <span className="text-sm font-medium text-gray-600">
+                          {category._count?.items} Products
+                        </span>
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                        >
+                          View Details
+                        </motion.button>
                       </div>
-                    </motion.div>
-                  ))}
+                    </div>
+                  </motion.div>
+                ))}
             </AnimatePresence>
           </div>
         </div>
@@ -536,16 +534,16 @@ function CategoryComponent() {
         />
       </Modal>
 
-            <DeleteCatConfirmationModal
-              isOpen={!!deletingCategory}
-              onClose={() => setDeletingCategory(null)}
-              onConfirm={() => {
-                if (deletingCategory) {
-                  handleDeleteCategory(deletingCategory.id!);
-                }
-              }}
-              catName={deletingCategory?.name || ""}
-            />
+      <DeleteCatConfirmationModal
+        isOpen={!!deletingCategory}
+        onClose={() => setDeletingCategory(null)}
+        onConfirm={() => {
+          if (deletingCategory) {
+            handleDeleteCategory(deletingCategory.id!);
+          }
+        }}
+        catName={deletingCategory?.name || ""}
+      />
     </div>
   );
 }

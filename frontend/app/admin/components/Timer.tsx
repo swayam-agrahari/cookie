@@ -20,13 +20,13 @@ export default function Timer(){
         clearInterval(interval);
       }
     };
-  }, [RefreshOrders]);
+  }, [RefreshOrders,SetOrders]);
   useEffect(()=>{
     if(time==0){
       SetOrders()
       setTime(180)
     }
-  },[time])
+  },[time, SetOrders])
   return (
     <div className="flex items-center space-x-4">
         

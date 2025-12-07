@@ -93,7 +93,7 @@ export default function ActivityCard(props:{activity:ActivityType}){
             setIsLoading(false)
         }
     }
-    getData()},[loadCard])
+    getData()},[loadCard, act, activity.changedId])
     return(
         <>
         <motion.div
